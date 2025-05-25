@@ -1,9 +1,8 @@
-// Example of the MongoDB connection code
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);  // Removed deprecated options
+    await mongoose.connect(process.env.MONGO_URI); 
     console.log("MongoDB Connected");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error.message);
