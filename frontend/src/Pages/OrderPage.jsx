@@ -18,7 +18,6 @@ import {
 
 const OrderPage = ({ match, history }) => {
   const orderId = match.params.id
-
   const dispatch = useDispatch()
 
   const [sdkReady, setSdkReady] = useState(false)
@@ -134,7 +133,8 @@ const OrderPage = ({ match, history }) => {
               <ListGroup.Item><Row><Col>Tax</Col><Col>${order.taxPrice}</Col></Row></ListGroup.Item>
               <ListGroup.Item><Row><Col>Total</Col><Col>${order.totalPrice}</Col></Row></ListGroup.Item>
 
-              {!order.isPaid && sdkReady && (
+              {/* Only show PayPal to non-admin users */}
+              {userInfo && !userInfo.isAdmin && !order.isPaid && sdkReady && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   <PayPalScriptProvider options={{ 'client-id': clientId }}>
@@ -145,6 +145,13 @@ const OrderPage = ({ match, history }) => {
                       }
                     />
                   </PayPalScriptProvider>
+                </ListGroup.Item>
+              )}
+
+              {/* Optional: Message for admin */}
+              {userInfo && userInfo.isAdmin && !order.isPaid && (
+                <ListGroup.Item>
+                  <Message variant='info'>Waiting for user payment...</Message>
                 </ListGroup.Item>
               )}
 

@@ -17,13 +17,13 @@ const upload = require('../middleware/uploadMiddleware'); // new
 
 router.route('/')
   .get(getProducts)
-  .post(protect, admin, upload.single('image'), createProduct);  // add upload middleware
+  .post(protect, admin, upload.single('image'), createProduct);  
 
 router.route('/:id/reviews').post(protect, createProductReview);
 router.get('/top', getTopProducts);
 router.route('/:id')
   .get(getProductById)
   .delete(protect, admin, deleteProduct)
-  .put(protect, admin, upload.single('image'), updateProduct);  // add upload middleware
+  .put(protect, admin, upload.single('image'), updateProduct); 
 
 module.exports = router;
