@@ -1,4 +1,7 @@
 const axios = require('axios');
+
+const baseURL = process.env.REACT_APP_API_URL || '';
+
 const {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
@@ -28,7 +31,7 @@ const listProducts = (keyword = '', pageNumber = '') => async (dispatch) => {
     dispatch({ type: PRODUCT_LIST_REQUEST });
 
     const { data } = await axios.get(
-      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+      `${baseURL}/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
     );
 
     dispatch({
@@ -50,7 +53,7 @@ const listProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/products/${id}`);
+    const { data } = await axios.get(`${baseURL}/api/products/${id}`);
 
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
@@ -83,7 +86,7 @@ const deleteProduct = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/products/${id}`, config);
+    await axios.delete(`${baseURL}/api/products/${id}`, config);
 
     dispatch({
       type: PRODUCT_DELETE_SUCCESS,
@@ -115,7 +118,7 @@ const createProduct = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/products`, {}, config);
+    const { data } = await axios.post(`${baseURL}/api/products`, {}, config);
 
     dispatch({
       type: PRODUCT_CREATE_SUCCESS,
@@ -150,7 +153,7 @@ const updateProduct = (product) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `/api/products/${product._id}`,
+      `${baseURL}/api/products/${product._id}`,
       product,
       config
     );
@@ -187,7 +190,7 @@ const createProductReview = (productId, review) => async (dispatch, getState) =>
       },
     };
 
-    await axios.post(`/api/products/${productId}/reviews`, review, config);
+    await axios.post(`${baseURL}/api/products/${productId}/reviews`, review, config);
 
     dispatch({
       type: PRODUCT_CREATE_REVIEW_SUCCESS,
@@ -207,7 +210,7 @@ const listTopProducts = () => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_TOP_REQUEST });
 
-    const { data } = await axios.get(`/api/products/top`);
+    const { data } = await axios.get(`${baseURL}/api/products/top`);
 
     dispatch({
       type: PRODUCT_TOP_SUCCESS,
