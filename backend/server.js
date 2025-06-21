@@ -20,9 +20,11 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-// CORS configuration
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',
+    'https://quickcart-2an41vxey-jabeenas-projects.vercel.app'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
@@ -56,7 +58,7 @@ app.get("/api/config/paypal", (req, res) => {
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));
 
-  app.get("*", (req, res) =>
+  app.get("/*", (req, res) =>
     res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
   );
 } else {
